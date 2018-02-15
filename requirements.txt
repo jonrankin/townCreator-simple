@@ -10,7 +10,6 @@ Jinja2==2.9.6
 MarkupSafe==1.0
 meld3==1.0.2
 pyparsing==2.2.0
-python-apt==1.1.0b5
 requests==2.10.0
 six==1.10.0
 supervisor==3.3.1
