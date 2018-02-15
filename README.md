@@ -11,8 +11,9 @@ NGINX will run on port 80 proxying to the flask app on localhost port 8000.
 
 To install just enter these commands:
 ```
+sudo apt update
 sudo apt install ansible
-wget https://raw.githubusercontent.com/Fiachra0/townCreator/master/townCreator.yml
+wget https://raw.githubusercontent.com/jonrankin/townCreator-simple/master/townCreator.yml
 ansible-playbook townCreator.yml
 ```
 
