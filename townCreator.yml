@@ -11,19 +11,9 @@
           url=http://nginx.org/keys/nginx_signing.key 
           state=present
 
-     - name: ELASTIC | add ELASTIC signing key
-       apt_key:
-          url=https://packages.elasticsearch.org/GPG-KEY-elasticsearch
-          state=present
-
      - name: NGINX | Add Nginx repo
        apt_repository:
          repo: ppa:nginx/development
-
-     - name: ELASTICSEARCH, FILEBEAT | Add 
-       apt_repository:
-         repo: deb https://artifacts.elastic.co/packages/5.x/apt stable main
-         state: present
      
      - name: NGINX | Updating apt cache
        apt:
@@ -38,16 +28,6 @@
          pkg: nginx
          state: latest
        when: not nginx_exists.stat.exists
-
-     - name: Check filebeat exists
-       stat: path=/etc/filebeat
-       register: filebeat_exists
-
-     - name: filebeat | installing filebeat
-       apt:
-         pkg: filebeat
-         state: latest
-       when: not filebeat_exists.stat.exists
 
      - name: Check gunicorn exists
        stat: path=/etc/gunicorn
@@ -72,7 +52,7 @@
 # PULL REPOSITORY AND SET CONFIGURATIONS
      - name: clone git repository
        git:
-        repo: https://github.com/Fiachra0/townCreator.git
+        repo: https://github.com/Fiachra0/townCreator-simple.git
         dest: ~/townCreator/
         clone: yes
         force: yes
@@ -85,6 +65,7 @@
      - name: python-pip | Installing Dependencies
        pip:
          requirements: ~/townCreator/requirements.txt
+       ignore_errors: True
 
 
      - name: WWW Move
@@ -101,9 +82,6 @@
          state: absent
          path: /etc/nginx/sites-available/default
        when: default_exists.stat.exists
-
-     - name: Filebeat Move
-       command: cp -r /root/townCreator/config_templates/filebeat/ /etc/
       
      - name: Nginx Move
        command: cp -r /root/townCreator/config_templates/nginx/ /etc/
@@ -124,11 +102,6 @@
      - name: NGINX | Starting NGINX
        service:
          name: nginx
-         state: restarted
-
-     - name: filebeat | Start filebeat
-       service:
-         name: filebeat
          state: restarted
 
      - name: townCreator | Start TOWNCREATOR
