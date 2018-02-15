@@ -52,7 +52,7 @@
 # PULL REPOSITORY AND SET CONFIGURATIONS
      - name: clone git repository
        git:
-        repo: https://github.com/Fiachra0/townCreator-simple.git
+        repo: https://github.com/jonrankin/townCreator-simple.git
         dest: ~/townCreator/
         clone: yes
         force: yes
